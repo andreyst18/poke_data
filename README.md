@@ -1,9 +1,10 @@
-## Проект PokeAPI Data
+# PokeAPI ETL Pipeline
 
-### Список покемонов
-`GET https://pokeapi.co/api/v2/pokemon?limit=20&offset=0`  
-Отдаёт: name, url
+ETL-пайплайн для загрузки данных о покемонах из PokeAPI (https://pokeapi.co) в PostgreSQL.
 
-### Детали каждого покемона
-`GET https://pokeapi.co/api/v2/pokemon/1`  
-Отдаёт всё: id, name, height, weight, base_experience, types.
+## Что делает
+
+1. **Extract** - обходит все страницы PokeAPI (1351 покемон), забирает детали по каждому.
+2. **Load** - загружает данные в PostgreSQL батчами (`executemany`) с идемпотентным upsert (`ON CONFLICT DO UPDATE`).
+3. **Analytics** — набор SQL-запросов для аналитики: агрегации, оконные функции, работа с массивами.
+
